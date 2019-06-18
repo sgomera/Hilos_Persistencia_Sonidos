@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fils, Persistència i sons</string>
+    <string name="dificil">Difícil</string>
+    <string name="dificultad">Sisplau, escull el nivell inicial</string>
+    <string name="facil">Fàcil</string>
+    <string name="medio">Mitjà</string>
+    <string name="ayuda">Ajuda</string>
+    <string name="texto_ayuda">
+        L\'objectiu del joc és evitar que la pilota caigui a terra, tocant la pilota amb el teu dit.\n\n
+        Per empentar la pilota en una direcció concreta, toca la pantalla en la direcció contrària.
+        \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Ànims tu pots!
+    </string>
+    <string name="volver">Torna</string>
+</resources>
