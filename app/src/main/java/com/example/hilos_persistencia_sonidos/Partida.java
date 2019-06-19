@@ -52,12 +52,12 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
     }
 
     public boolean toque(int x, int y){
-        if(y<tam_pantY/3) return false;
-        if(velY<=0) return false;
-        if(x<posX || x> posX+tamPelota) return false;
-        if(y<posY || y>posY+tamPelota) return false;
+        if(y<tam_pantY/3) return false; //si s'ha tocat el terç superior de la pantalla, aleshores false.
+        if(velY<=0) return false; //si la pilota està parada, aleshores false.
+        if(x<posX || x> posX+tamPelota) return false; //si s'ha tocat fora de la pilota horitzontalment, false.
+        if(y<posY || y>posY+tamPelota) return false;// si s'ha tocat fora de la pilota verticalment, false.
 
-        velY=-velY;
+        velY=-velY; //s'inverteix la velocitat vertical(rebot)...
         double desplX=x-(posX+tamPelota/2);
         desplX=desplX/(tamPelota/2)*velY/2;
         velX+=(int)desplX;
@@ -66,6 +66,7 @@ public class Partida extends android.support.v7.widget.AppCompatImageView {
     }
 
 
+    //retorna true quan la pilota es perd pels bordes. Sinó false
     public boolean movimientoBola(){
 
         if(posX<0-tamPelota){
