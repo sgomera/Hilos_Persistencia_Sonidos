@@ -1,14 +1,20 @@
 package com.example.hilos_persistencia_sonidos;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
+    int record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,40 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode != 1 || resultCode !=RESULT_OK) return;
 
         int resultado = puntuacion.getIntExtra("PUNTUACION", 0);
-        TextView caja = (TextView) findViewById(R.id.record);
-        caja.setText("Record: " + resultado);
 
+        if (resultado > record) {
+            record = resultado;
+            TextView caja = (TextView) findViewById(R.id.record);
+            caja.setText("Record: " + record);
+            guardarRecord();
+        } else{
+            String puntuacionPartida = "" + resultado;
+            Toast toast = Toast.makeText(this, puntuacionPartida, Toast.LENGTH_LONG);
+            toast.show();
+        }
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        leeRecord();
+
+    }
+
+    private void guardarRecord(){
+        SharedPreferences datos = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor miEditor = datos.edit();
+        miEditor.putInt("RECORD", record);
+        miEditor.apply();
+    }
+
+    private void leeRecord(){
+        SharedPreferences datos = PreferenceManager.getDefaultSharedPreferences(this);
+        record = datos.getInt("RECORD", 0);
+        TextView caja = (TextView) findViewById(R.id.record);
+        caja.setText("Record: " + record);
     }
 }
