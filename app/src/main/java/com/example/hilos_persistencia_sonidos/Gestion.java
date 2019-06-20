@@ -1,6 +1,7 @@
 package com.example.hilos_persistencia_sonidos;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,10 @@ public class Gestion extends AppCompatActivity {
     private Handler temporizador;//manejador que necessiten els fils per executar activitats en paral·lel
     private int botes;
 
+    //creem mediaPlayers
+    MediaPlayer golpeo;
+    MediaPlayer fin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +33,11 @@ public class Gestion extends AppCompatActivity {
         setContentView(partida); //carrega la partida gràficament
 
         temporizador = new Handler();//inicialitzar el temporitzador
-        temporizador.postDelayed(elHilo, 2000); //no s'havia arrencat elHilo de la pilota!!!
+        temporizador.postDelayed(elHilo, 1000); //no s'havia arrencat elHilo de la pilota!!!
+
+        //inicialitzem mediaPlayers
+        golpeo = MediaPlayer.create(this, R.raw.golpeobalon);
+        fin = MediaPlayer.create(this, R.raw.finaljuego);
 
 
     }
@@ -41,7 +50,7 @@ public class Gestion extends AppCompatActivity {
             else {
                 partida.invalidate(); //elimina el contenido de ImageView (esborra el frame anterior)
                     // i torna a cridar a onDraw
-                temporizador.postDelayed(elHilo, 1000/FPS); //determina la velocitat de l'animació
+                temporizador.postDelayed(elHilo, 750/FPS); //determina la velocitat de l'animació
             }
         }
     };
@@ -53,6 +62,10 @@ public class Gestion extends AppCompatActivity {
 
         //ara ja tenim la info d'on s'ha tocat i podem cridar al mètode toque de la partida
         if  (partida.toque(x, y)) botes++;
+
+        //so de pilota rebotant:
+        golpeo.start();
+
         return false; //quan ho ha fet tot surt i ja està, no sé pq false??
     }
 
@@ -61,9 +74,13 @@ public class Gestion extends AppCompatActivity {
 
         //Intent intent = new Intent(); ell no ha posat res a dins, no deu caler, pq fa el finish
         Intent in = new Intent();
-        in.putExtra("PUNTUACION", botes);
+        in.putExtra("PUNTUACION", botes * dificultad);
 
         setResult(RESULT_OK, in);
+
+        //so de final de partida
+        fin.start();
+
         finish();//destrueix l'activitat actual
 
     }
